@@ -4,7 +4,7 @@ const CPANEL_HOSTNAME = process.env.CPANEL_HOSTNAME;
 const CPANEL_USERNAME = process.env.CPANEL_USERNAME;
 const CPANEL_API_TOKEN = process.env.CPANEL_API_TOKEN;
 
-async function cpanelApi(module: string, func: string, params: Record<string, string>) {
+async function cpanelApi(module: string, func: string, params: Record<string, string>): Promise<any> {
   if (!CPANEL_HOSTNAME || !CPANEL_USERNAME || !CPANEL_API_TOKEN) {
     throw new Error('Missing cPanel credentials');
   }

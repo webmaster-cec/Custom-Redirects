@@ -13,7 +13,7 @@ export async function GET(request: Request) {
 
   try {
     const data = await listRedirects()
-    return NextResponse.json({ redirects: data.data || [] })
+    return NextResponse.json({ redirects: (data as any).data || [] })
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
 
     // Check slug availability
     const existing = await listRedirects()
-    const isTaken = existing.data?.some((r: any) => r.path === `/${slug}`)
+    const isTaken = (existing as any).data?.some((r: any) => r.path === `/${slug}`)
     if (isTaken) {
       return NextResponse.json({ error: 'Slug already exists' }, { status: 400 })
     }

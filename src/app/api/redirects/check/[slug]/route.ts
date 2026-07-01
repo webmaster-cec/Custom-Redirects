@@ -10,7 +10,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ slug
     const redirects = await listRedirects()
     
     // Check if the path exists on the SPECIFIC domain
-    const isTaken = redirects.data?.some((r: any) => 
+    const isTaken = (redirects as any).data?.some((r: any) => 
       r.domain === domain && 
       (r.sourceurl === `/${slug}` || r.sourceurl === `^/${slug}/?$` || r.source === `/${slug}` || r.source === `^/${slug}/?$`)
     )

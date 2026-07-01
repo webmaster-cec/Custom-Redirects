@@ -36,7 +36,7 @@ export default async function UsersPage() {
   const { data: authData, error: authError } = await supabaseAdmin.auth.admin.listUsers()
 
   const enrichedProfiles = (profiles || []).map(p => {
-    const authUser = authData?.users?.find(u => u.id === p.id);
+    const authUser = authData?.users?.find((u: any) => u.id === p.id);
     return {
       ...p,
       email: authUser?.email || p.id // Fallback to ID if email not found
