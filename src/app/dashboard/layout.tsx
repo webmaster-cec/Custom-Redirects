@@ -106,12 +106,12 @@ export default async function DashboardLayout({
 
                   {/* Mobile Dropdown Menu */}
                   <div className="absolute right-0 top-full mt-2 w-56 bg-[var(--color-blue-primary)] border border-white/10 rounded-xl shadow-xl flex flex-col py-2 z-50">
-                    <div className="px-4 py-3 border-b border-white/10 mb-1 flex flex-col gap-1">
-                      <span className="text-xs font-medium text-white/60 truncate block w-full">
+                    <div className="px-4 py-4 border-b border-white/10 mb-2 flex flex-col gap-1.5">
+                      <span className="text-xs font-medium text-white/70 truncate block w-full">
                         {user.email}
                       </span>
-                      <span className="text-[10px] uppercase font-bold text-white/80 tracking-wide">
-                        {userRole.replace('_', ' ')}
+                      <span className="text-xs uppercase font-extrabold text-[#00e5ff] tracking-widest drop-shadow-md">
+                        Role: {userRole.replace('_', ' ')}
                       </span>
                     </div>
                     <Link href="/dashboard" className="px-4 py-3 text-sm text-white/90 hover:bg-white/20 transition-colors flex items-center">
