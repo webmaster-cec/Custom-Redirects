@@ -108,7 +108,7 @@ export default async function DashboardPage() {
                 <h2 className="text-xl font-semibold text-slate-800 mb-4">Pending Approval</h2>
                 <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl">
                   <p className="text-amber-800 text-sm">
-                    Your account is currently pending approval. An administrator must assign you a role before you can create redirects.
+                    Your account is currently pending approval. Webmaster must assign you a role before you can create redirects.
                   </p>
                 </div>
               </div>
