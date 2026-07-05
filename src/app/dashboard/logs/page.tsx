@@ -1,4 +1,5 @@
 import pool from '@/lib/db'
+import { createClient } from '@/lib/supabase-server'
 
 export default async function AuditLogPage() {
   let logs: any[] = []
@@ -6,7 +7,16 @@ export default async function AuditLogPage() {
 
   try {
     const [rows] = await pool.execute('SELECT * FROM redirect_logs ORDER BY created_at DESC LIMIT 100')
-    logs = rows as any[]
+    const dbLogs = rows as any[]
+    
+    const supabase = await createClient()
+    const { data: profiles } = await supabase.from('profiles').select('id, role')
+    const profileMap = new Map((profiles || []).map(p => [p.id, p.role]))
+
+    logs = dbLogs.map(log => ({
+      ...log,
+      user_role: profileMap.get(log.user_id) || 'unknown'
+    }))
   } catch (err: any) {
     error = err.message
   }
@@ -54,8 +64,8 @@ export default async function AuditLogPage() {
                   <td className="px-6 py-4 text-slate-500 truncate max-w-xs">
                     {log.destination || '-'}
                   </td>
-                  <td className="px-6 py-4 text-slate-500">
-                    {log.user_email}
+                  <td className="px-6 py-4 text-slate-500 capitalize">
+                    {log.user_role}
                   </td>
                   <td className="px-6 py-4 text-slate-500 whitespace-nowrap">
                     {new Intl.DateTimeFormat('en-US', {
