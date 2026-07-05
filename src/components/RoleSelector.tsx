@@ -6,14 +6,16 @@ import { Loader2 } from 'lucide-react'
 
 const ROLES = [
   { value: 'pending', label: 'Pending' },
-  { value: 'user', label: 'User' },
   { value: 'webmaster', label: 'Webmaster' },
   { value: 'admin', label: 'Admin' },
   { value: 'cs_chair', label: 'CS Chair' },
   { value: 'pes_chair', label: 'PES Chair' },
   { value: 'ras_chair', label: 'RAS Chair' },
   { value: 'wie_chair', label: 'WIE Chair' },
-  { value: 'treasurer', label: 'Treasurer' },
+  { value: 'sight_chair', label: 'SIGHT Chair' },
+  { value: 'sscs_chair', label: 'SSCS Chair' },
+  { value: 'ias_chair', label: 'IAS Chair' },
+  { value: 'sps_chair', label: 'SPS Chair' },
 ]
 
 export function RoleSelector({ userId, currentRole }: { userId: string, currentRole: string }) {
