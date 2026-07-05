@@ -26,6 +26,22 @@ export async function updateUserRole(userId: string, newRole: string) {
   // Use service client to bypass RLS for updating another user's profile
   const supabaseAdmin = createServiceClient()
   
+  if (newRole === 'admin') {
+    const { data: existingAdmins, error: countError } = await supabaseAdmin
+      .from('profiles')
+      .select('id')
+      .eq('role', 'admin')
+      
+    if (countError) {
+      return { success: false, error: 'Failed to verify existing admins.' }
+    }
+    
+    const otherAdmins = existingAdmins.filter(admin => admin.id !== userId)
+    if (otherAdmins.length > 0) {
+      return { success: false, error: 'Only 1 admin is allowed at a time. Please remove the current admin before assigning a new one.' }
+    }
+  }
+  
   const { error } = await supabaseAdmin
     .from('profiles')
     .update({ role: newRole })

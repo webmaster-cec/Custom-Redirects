@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { LogOut, LayoutDashboard, History, Users, Menu, X } from 'lucide-react'
+import { AutoRefresh } from '@/components/AutoRefresh'
 
 export default async function DashboardLayout({
   children,
@@ -75,9 +76,14 @@ export default async function DashboardLayout({
             </div>
 
             <div className="flex items-center gap-4">
-              <span className="text-sm font-medium text-white/80 hidden sm:block">
-                {user.email}
-              </span>
+              <div className="hidden sm:flex flex-col items-end">
+                <span className="text-sm font-medium text-white/90">
+                  {user.email}
+                </span>
+                <span className="text-[10px] uppercase tracking-wider text-white/60 font-semibold bg-white/10 px-2 py-0.5 rounded-full mt-0.5">
+                  {userRole.replace('_', ' ')}
+                </span>
+              </div>
               <form action="/auth/signout" method="post" className="hidden sm:block">
                 <button
                   type="submit"
@@ -100,7 +106,7 @@ export default async function DashboardLayout({
                   {/* Mobile Dropdown Menu */}
                   <div className="absolute right-0 top-full mt-2 w-56 bg-[var(--color-blue-primary)] border border-white/10 rounded-xl shadow-xl flex flex-col py-2 z-50">
                     <span className="px-4 py-3 text-xs font-medium text-white/60 border-b border-white/10 mb-1 truncate block">
-                      {user.email}
+                      {user.email} <span className="uppercase font-bold text-white/80 ml-1">({userRole.replace('_', ' ')})</span>
                     </span>
                     <Link href="/dashboard" className="px-4 py-3 text-sm text-white/90 hover:bg-white/20 transition-colors flex items-center">
                       <LayoutDashboard className="w-4 h-4 mr-3 opacity-70" />
@@ -134,6 +140,7 @@ export default async function DashboardLayout({
       </nav>
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <AutoRefresh interval={10000} />
         {children}
       </main>
     </div>
