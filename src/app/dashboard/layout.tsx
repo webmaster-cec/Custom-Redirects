@@ -76,11 +76,19 @@ export default async function DashboardLayout({
             </div>
 
             <div className="flex items-center gap-4">
+              {/* Desktop User Info */}
               <div className="hidden sm:flex flex-col items-end">
                 <span className="text-sm font-medium text-white/90">
                   {user.email}
                 </span>
                 <span className="text-[10px] uppercase tracking-wider text-white/60 font-semibold bg-white/10 px-2 py-0.5 rounded-full mt-0.5">
+                  {userRole.replace('_', ' ')}
+                </span>
+              </div>
+
+              {/* Mobile Role Badge */}
+              <div className="sm:hidden flex items-center mr-2">
+                <span className="text-[10px] uppercase tracking-wider text-white/90 font-semibold bg-[var(--color-cyan-accent)]/20 border border-[var(--color-cyan-accent)]/30 px-2.5 py-1 rounded-full">
                   {userRole.replace('_', ' ')}
                 </span>
               </div>
