@@ -1,7 +1,7 @@
 -- Create a table for public profiles
 create table profiles (
   id uuid references auth.users not null primary key,
-  role text check (role in ('admin', 'user')) default 'user',
+  role text check (role in ('webmaster', 'admin', 'user', 'cs_chair', 'pes_chair', 'ras_chair', 'wie_chair', 'treasurer', 'pending')) default 'pending',
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
@@ -28,7 +28,7 @@ security definer set search_path = public
 as $$
 begin
   insert into public.profiles (id, role)
-  values (new.id, 'admin'); -- Defaulting first users to admin for your convenience
+  values (new.id, 'pending'); -- Defaulting new users to pending for security
   return new;
 end;
 $$;

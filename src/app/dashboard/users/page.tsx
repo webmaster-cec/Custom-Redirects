@@ -1,5 +1,6 @@
 import { createClient, createServiceClient } from '@/lib/supabase-server'
 import { redirect } from 'next/navigation'
+import { RoleSelector } from '@/components/RoleSelector'
 
 export default async function UsersPage() {
   const supabase = await createClient()
@@ -9,8 +10,14 @@ export default async function UsersPage() {
     redirect('/login')
   }
 
-  const adminEmails = ['alwinsaji4.cgnr@gmail.com', 'webmastercecieee@gmail.com']
-  const isAdmin = user.email ? adminEmails.includes(user.email) : false
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+
+  const userRole = profile?.role || 'pending'
+  const isAdmin = userRole === 'webmaster' || userRole === 'admin'
 
   if (!isAdmin) {
     return (
@@ -68,11 +75,7 @@ export default async function UsersPage() {
                       {p.email}
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        adminEmails.includes(p.email) ? 'bg-purple-100 text-purple-800' : 'bg-slate-100 text-slate-800'
-                      }`}>
-                        {adminEmails.includes(p.email) ? 'admin' : 'user'}
-                      </span>
+                      <RoleSelector userId={p.id} currentRole={p.role || 'pending'} />
                     </td>
                     <td className="px-6 py-4 text-slate-500 whitespace-nowrap">
                       {new Intl.DateTimeFormat('en-US', {

@@ -21,8 +21,15 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ s
     }
 
     const userEmail = session.user.email
-    const adminEmails = ['alwinsaji4.cgnr@gmail.com', 'webmastercecieee@gmail.com']
-    const isAdmin = userEmail ? adminEmails.includes(userEmail) : false
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', session.user.id)
+      .single()
+
+    const userRole = profile?.role || 'pending'
+    const isAdmin = userRole === 'webmaster' || userRole === 'admin'
 
     if (!isAdmin) {
       const [rows] = await pool.execute(

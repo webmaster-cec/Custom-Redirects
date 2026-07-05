@@ -9,6 +9,16 @@ export default async function DashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   
+  // Fetch user role for admin privileges
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user?.id)
+    .single()
+    
+  const userRole = profile?.role || 'pending'
+  const isAdmin = userRole === 'webmaster' || userRole === 'admin'
+  
   // Default domain for the app
   const DOMAIN = process.env.NEXT_PUBLIC_DEFAULT_DOMAIN || 'cecieee.org'
   
@@ -97,7 +107,7 @@ export default async function DashboardPage() {
           </div>
         </div>
         <div className="lg:col-span-2">
-          <RedirectList redirects={redirects} domains={allDomains} currentUserEmail={user?.email} />
+          <RedirectList redirects={redirects} domains={allDomains} currentUserEmail={user?.email} isAdmin={isAdmin} />
         </div>
       </div>
     </div>

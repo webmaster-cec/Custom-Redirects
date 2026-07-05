@@ -12,7 +12,7 @@ interface Redirect {
   user_email?: string
 }
 
-export function RedirectList({ redirects, domains, currentUserEmail }: { redirects: Redirect[], domains: string[], currentUserEmail?: string }) {
+export function RedirectList({ redirects, domains, currentUserEmail, isAdmin = false }: { redirects: Redirect[], domains: string[], currentUserEmail?: string, isAdmin?: boolean }) {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedDomain, setSelectedDomain] = useState<string>('all')
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -146,7 +146,7 @@ export function RedirectList({ redirects, domains, currentUserEmail }: { redirec
           </div>
         ) : (
           filteredRedirects.map((redirect, idx) => (
-            <RedirectRow key={`${redirect.domain}-${redirect.path}-${idx}`} redirect={redirect} currentUserEmail={currentUserEmail} />
+            <RedirectRow key={`${redirect.domain}-${redirect.path}-${idx}`} redirect={redirect} currentUserEmail={currentUserEmail} isAdmin={isAdmin} />
           ))
         )}
       </div>

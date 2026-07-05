@@ -11,9 +11,7 @@ interface Redirect {
   user_email?: string
 }
 
-export function RedirectRow({ redirect, currentUserEmail }: { redirect: Redirect, currentUserEmail?: string }) {
-  const adminEmails = ['alwinsaji4.cgnr@gmail.com', 'webmastercecieee@gmail.com']
-  const isAdmin = currentUserEmail ? adminEmails.includes(currentUserEmail) : false
+export function RedirectRow({ redirect, currentUserEmail, isAdmin = false }: { redirect: Redirect, currentUserEmail?: string, isAdmin?: boolean }) {
   const isCreator = currentUserEmail && redirect.user_email ? currentUserEmail === redirect.user_email : false
   const canDelete = isAdmin || isCreator
   const [isDeleting, setIsDeleting] = useState(false)

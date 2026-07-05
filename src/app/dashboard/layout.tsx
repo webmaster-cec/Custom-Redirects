@@ -16,8 +16,15 @@ export default async function DashboardLayout({
     redirect('/login')
   }
 
-  const adminEmails = ['alwinsaji4.cgnr@gmail.com', 'webmastercecieee@gmail.com']
-  const isAdmin = user.email ? adminEmails.includes(user.email) : false
+  // Fetch user role from profiles
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+
+  const userRole = profile?.role || 'pending'
+  const isAdmin = userRole === 'webmaster' || userRole === 'admin'
 
   return (
     <div className="min-h-screen bg-[var(--color-blue-main)] flex flex-col">
